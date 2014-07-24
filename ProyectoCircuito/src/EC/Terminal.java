@@ -33,7 +33,35 @@ public class Terminal {
 	 */
 	
 	private Node connectionPoint = null;
+ 
+	/**
+	 * Constructor de clase Terminal
+	 * @param id    		El identificador de la terminal
+	 * @param type  		El tipo de la terminal
+	 * @param connections   Nodo al que se conectara la terminal
+	 * @param s     		Referencia al componente que pertenecera la terminal
+	 * @remark      		No crean objetos de esta clase sin la correspondiente
+	 *       				referencia al componente al que pertenecen.     
+	 * 
+	 */
+	public Terminal(int id, TermType type, Node connections , Component s) {
 		
+		// Se verifica si la referencia al componente es null
+		// Se verifica si el id esta en los rangos correctos			
+		// Se verifica si el tipo de terminal es correcto
+		if( (s != null) || 	(id > 0) || 
+			(type == TermType.IN ||type == TermType.OUT))
+		{
+			this.id =id;
+			this.type = type;
+			this.sourceComponent = s;
+			this.connectionPoint = connections;
+			
+			
+		}
+		
+	}
+	
 	/**
 	 * Constructor de clase Terminal
 	 * @param id    El identificador de la terminal
@@ -42,7 +70,6 @@ public class Terminal {
 	 * @remark      No crean objetos de esta clase sin la correspondiente
 	 *       		referencia al componente al que pertenecen.     
 	 * 
-	 * @return      nada
 	 */
 	public Terminal(int id, TermType type, Component s) {
 		
@@ -58,8 +85,6 @@ public class Terminal {
 			
 		}
 		
-		
-		
 	}
 	
 	/**
@@ -71,8 +96,9 @@ public class Terminal {
 	/**
 	 * @return the type
 	 */
-	public TermType getType() {
-		return type;
+	public int getType() {
+		
+		return type.getValue();
 	}
 	
 	/**
@@ -85,6 +111,19 @@ public class Terminal {
 		return type.toString();
 	}
 
+	/**
+	 * Conecta una terminal de un nodo
+	 * @param  n   node con el que se realizara la conexion
+	 * @return no retorna nada
+	 */
+	public void connect(Node n)
+	{
+		if(n != null){
+			n.addConnection(this);
+			connectionPoint = n;
+		}
+		
+	}
 	/**
 	 * Desconecta una terminal de un nodo
 	 * 

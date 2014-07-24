@@ -5,6 +5,7 @@ package EC;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -40,27 +41,47 @@ public class SerializationManager {
 	 */
 	public static String data;
 	
-	public SerializationManager(String path) throws IOException
+	/**
+	 * Constructor dada la ruta del archivo a leer
+	 * 
+	 * @remark La ruta del archivo a leer sera la misma del archivo en donde se escribira
+	 * @param inpath ruta del archivo con la expresion serializada del circuito
+	 * @throws IOException
+	 */
+	public SerializationManager(String inPath) throws IOException{
+		this(inPath,inPath);
+	}
+	
+	/**
+	 * Constructor dado una ruta de entrada y una salida.
+	 * 
+	 * @param inpath ruta del archivo con la expresion serializada del circuito
+	 * @param outpath ruta del archivo donde se guardara la expresion serializada del circuito
+	 * @throws IOException
+	 */
+	public SerializationManager(String inpath, String outpath) throws IOException
 	{
-		inPath = new File(path);
+	    inPath = new File(inpath);
+	    outPath = new File(outpath);
 		
 		if ( !inPath.exists() ) {
 			
-			System.out.println("1");
+			System.out.println("Ruta no existe");
+	       
 		}
 		/**
 		 * 3. Chequear que ese "algo" es un archivo.
 		 */
 		if ( !inPath.isFile() ) {
 			
-			System.out.println("2");
+			System.out.println("No es un archivo");
 		}
 		/**
 		 * 4. Chequear que el archivo se puede leer.
 		 */
 		if ( !inPath.canRead() ) {
 			
-			System.out.println("3");
+			System.out.println("No se puede leer");
 		}
 		
 		
@@ -98,7 +119,7 @@ public class SerializationManager {
 	 * @return Un cadena de caracteres con la expresion serializada
 	 * @throws IOException 
 	 */
-	public String getSerialization() throws IOException{
+	public String readCircuitSerialization() throws IOException{
 		
 		/**
 		 * Abrir un buffer
@@ -138,7 +159,15 @@ public class SerializationManager {
 	 */
 	public void SaveCircuit(String circuito)
 	{
+		try {
+			outBuffer= new PrintStream(outPath);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		outBuffer.println(circuito);
 		
+		outBuffer.close();
 	}
 	
 }

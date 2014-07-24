@@ -15,6 +15,11 @@ public enum TermType {
 	private TermType(int value) {
                 this.value = value;
         }
+	
 	private int value;
+	
+	public int getValue(){
+		return value;
+	}
 	
 	};
